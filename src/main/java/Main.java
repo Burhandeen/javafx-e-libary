@@ -11,6 +11,37 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private VBox createCategoryCard(String iconText, String nameText, String countText) {
+        VBox card = new VBox(5);
+        card.setAlignment(Pos.CENTER_LEFT);
+        card.setPadding(new Insets(15));
+        card.setPrefSize(160, 80);
+        card.setStyle("-fx-background-color: white; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, lightgray, 5, 0, 0, 2);");
+
+        Label icon = new Label(iconText);
+        icon.setFont(Font.font(20));
+
+        Label name = new Label(nameText);
+        name.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+        Label count = new Label(countText);
+        count.setTextFill(Color.GRAY);
+
+        card.getChildren().addAll(icon, name, count);
+
+        // Hover effect
+        card.setOnMouseEntered(e -> card.setStyle(
+                "-fx-background-color: white; -fx-border-radius: 10; -fx-background-radius: 10;" +
+                        "-fx-effect: dropshadow(gaussian, #aaa, 10, 0, 0, 4);"
+        ));
+        card.setOnMouseExited(e -> card.setStyle(
+                "-fx-background-color: white; -fx-border-radius: 10; -fx-background-radius: 10;" +
+                        "-fx-effect: dropshadow(gaussian, lightgray, 5, 0, 0, 2);"
+        ));
+
+        return card;
+    }
+
     public void start(Stage primaryStage) {
         // Top Navbar
         HBox navbar = new HBox(20);
@@ -69,20 +100,7 @@ public class Main extends Application {
 
         int row = 0, col = 0;
         for (String[] cat : categories) {
-            VBox card = new VBox(5);
-            card.setAlignment(Pos.CENTER_LEFT);
-            card.setPadding(new Insets(15));
-            card.setPrefSize(160, 80);
-            card.setStyle("-fx-background-color: white; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, lightgray, 5, 0, 0, 2);");
-
-            Label icon = new Label(cat[0]);
-            icon.setFont(Font.font(20));
-            Label name = new Label(cat[1]);
-            name.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            Label count = new Label(cat[2]);
-            count.setTextFill(Color.GRAY);
-
-            card.getChildren().addAll(icon, name, count);
+            VBox card = createCategoryCard(cat[0], cat[1], cat[2]);
             grid.add(card, col, row);
 
             col++;
@@ -102,6 +120,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+
 
     public static void main(String[] args) {
         launch(args);
